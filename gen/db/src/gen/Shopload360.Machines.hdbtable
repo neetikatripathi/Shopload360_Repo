@@ -1,0 +1,12 @@
+COLUMN TABLE Shopload360_Machines (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  machineNo INTEGER,
+  name NVARCHAR(40),
+  description NVARCHAR(60),
+  dept_ID NVARCHAR(36),
+  PRIMARY KEY(ID)
+)

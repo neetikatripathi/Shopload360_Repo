@@ -1,0 +1,11 @@
+VIEW shopload360Srv_Machines AS SELECT
+  Machines_0.ID,
+  Machines_0.createdAt,
+  Machines_0.createdBy,
+  Machines_0.modifiedAt,
+  Machines_0.modifiedBy,
+  Machines_0.machineNo,
+  Machines_0.name,
+  Machines_0.description,
+  Machines_0.dept_ID
+FROM Shopload360_Machines AS Machines_0

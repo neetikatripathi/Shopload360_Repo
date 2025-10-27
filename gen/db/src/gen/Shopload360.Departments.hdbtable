@@ -1,0 +1,10 @@
+COLUMN TABLE Shopload360_Departments (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP,
+  modifiedBy NVARCHAR(255),
+  deptNo INTEGER,
+  description NVARCHAR(60),
+  PRIMARY KEY(ID)
+)

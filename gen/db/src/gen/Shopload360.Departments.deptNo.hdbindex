@@ -1,0 +1,1 @@
+UNIQUE INVERTED INDEX Shopload360_Departments_deptNo ON Shopload360_Departments (deptNo)

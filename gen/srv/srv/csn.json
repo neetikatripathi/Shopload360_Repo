@@ -1,0 +1,2402 @@
+{
+  "namespace": "Shopload360",
+  "definitions": {
+    "Shopload360.Departments": {
+      "kind": "entity",
+      "@assert.unique.deptNo": [
+        {
+          "=": "deptNo"
+        }
+      ],
+      "includes": [
+        "cuid",
+        "managed"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "deptNo": {
+          "@mandatory": true,
+          "type": "cds.Integer"
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 60
+        },
+        "machines": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "Shopload360.Machines",
+          "on": [
+            {
+              "ref": [
+                "machines",
+                "dept"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "Shopload360.Machines": {
+      "kind": "entity",
+      "@assert.unique.machineNo": [
+        {
+          "=": "machineNo"
+        }
+      ],
+      "includes": [
+        "cuid",
+        "managed"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "machineNo": {
+          "@mandatory": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "type": "cds.String",
+          "length": 40
+        },
+        "description": {
+          "type": "cds.String",
+          "length": 60
+        },
+        "dept": {
+          "type": "cds.Association",
+          "target": "Shopload360.Departments",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "shoploads": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "Shopload360.Shoploads",
+          "on": [
+            {
+              "ref": [
+                "shoploads",
+                "machine"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "Shopload360.Shoploads": {
+      "kind": "entity",
+      "includes": [
+        "cuid",
+        "managed"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "machineNo": {
+          "type": "cds.Integer"
+        },
+        "temps": {
+          "type": "cds.Decimal",
+          "precision": 6,
+          "scale": 2
+        },
+        "partNumber": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "fai": {
+          "type": "cds.Integer"
+        },
+        "ibm": {
+          "type": "cds.String",
+          "length": 7
+        },
+        "quantity": {
+          "type": "cds.Integer"
+        },
+        "startDate": {
+          "type": "cds.Date"
+        },
+        "lrd": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "debit": {
+          "type": "cds.Integer"
+        },
+        "pp": {
+          "type": "cds.Integer"
+        },
+        "material": {
+          "type": "cds.String",
+          "length": 10
+        },
+        "volume": {
+          "type": "cds.Decimal",
+          "precision": 8,
+          "scale": 2
+        },
+        "clocking": {
+          "type": "cds.String",
+          "length": 6
+        },
+        "mrpCtr": {
+          "type": "cds.String",
+          "length": 2
+        },
+        "signal": {
+          "type": "cds.Integer"
+        },
+        "priority": {
+          "type": "cds.Integer"
+        },
+        "fixture": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "logs": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "sapStatus": {
+          "type": "cds.String",
+          "length": 3
+        },
+        "logNumber": {
+          "type": "cds.String",
+          "length": 10
+        },
+        "smartlogStatus": {
+          "type": "cds.String",
+          "length": 10
+        },
+        "stockoutEcd": {
+          "type": "cds.String",
+          "length": 20
+        },
+        "remarkIbm": {
+          "type": "cds.String",
+          "length": 90
+        },
+        "commentsForProduction": {
+          "type": "cds.String",
+          "length": 90
+        },
+        "qualityAlert": {
+          "type": "cds.String",
+          "length": 3
+        },
+        "logisticsNotes": {
+          "type": "cds.String",
+          "length": 90
+        },
+        "remarkPartNumber": {
+          "type": "cds.String",
+          "length": 90
+        },
+        "productionDate": {
+          "type": "cds.Date"
+        },
+        "shoploadedOn": {
+          "type": "cds.Date"
+        },
+        "productionComments": {
+          "type": "cds.String",
+          "length": 90
+        },
+        "completedDate": {
+          "type": "cds.Date"
+        },
+        "status": {
+          "type": "cds.String",
+          "length": 12
+        },
+        "machine": {
+          "type": "cds.Association",
+          "target": "Shopload360.Machines",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "shopload360Srv": {
+      "@source": "srv/service.cds",
+      "kind": "service",
+      "@path": "/service/shopload360",
+      "@requires": "authenticated-user"
+    },
+    "shopload360Srv.Departments": {
+      "kind": "entity",
+      "@odata.draft.enabled": true,
+      "@UI.HeaderInfo.TypeName": "Department",
+      "@UI.HeaderInfo.TypeNamePlural": "Departments",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "deptNo"
+      },
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "deptNo"
+          }
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "deptNo"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "description"
+          }
+        }
+      ],
+      "@UI.FieldGroup#Main.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#Main.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "deptNo"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "description"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "createdAt"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "createdBy"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "modifiedAt"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "modifiedBy"
+          }
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "Main",
+          "Label": "General Information",
+          "Target": "@UI.FieldGroup#Main"
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "Machines",
+          "Target": "machines/@UI.LineItem"
+        }
+      ],
+      "@UI.SelectionFields": [
+        {
+          "=": "deptNo"
+        }
+      ],
+      "@assert.unique.deptNo": [
+        {
+          "=": "deptNo"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "Shopload360.Departments"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "@UI.Hidden": true,
+          "@Common.Text": {
+            "=": "deptNo"
+          },
+          "@Common.Text.@UI.TextArrangement": {
+            "#": "TextOnly"
+          },
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@title": "Created At",
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@title": "Created By",
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@title": "Modified At",
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@title": "Modified By",
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "deptNo": {
+          "@title": "Department Number",
+          "@mandatory": true,
+          "type": "cds.Integer"
+        },
+        "description": {
+          "@title": "Description",
+          "type": "cds.String",
+          "length": 60
+        },
+        "machines": {
+          "@Common.Label": "Machines",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "shopload360Srv.Machines",
+          "on": [
+            {
+              "ref": [
+                "machines",
+                "dept"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "shopload360Srv.Machines": {
+      "kind": "entity",
+      "@UI.HeaderInfo.TypeName": "Machine",
+      "@UI.HeaderInfo.TypeNamePlural": "Machines",
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "machineNo"
+      },
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "machineNo"
+          }
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "machineNo"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "name"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "description"
+          }
+        }
+      ],
+      "@UI.FieldGroup#Main.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#Main.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "machineNo"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "name"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "description"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "createdAt"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "createdBy"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "modifiedAt"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "modifiedBy"
+          }
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "Main",
+          "Label": "General Information",
+          "Target": "@UI.FieldGroup#Main"
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "Shoploads",
+          "Target": "shoploads/@UI.LineItem"
+        }
+      ],
+      "@UI.SelectionFields": [
+        {
+          "=": "dept_ID"
+        }
+      ],
+      "@assert.unique.machineNo": [
+        {
+          "=": "machineNo"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "Shopload360.Machines"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "@UI.Hidden": true,
+          "@Common.Text": {
+            "=": "machineNo"
+          },
+          "@Common.Text.@UI.TextArrangement": {
+            "#": "TextOnly"
+          },
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@title": "Created At",
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@title": "Created By",
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@title": "Modified At",
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@title": "Modified By",
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "machineNo": {
+          "@title": "Machine Number",
+          "@mandatory": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "@title": "Name",
+          "type": "cds.String",
+          "length": 40
+        },
+        "description": {
+          "@title": "Description",
+          "type": "cds.String",
+          "length": 60
+        },
+        "dept": {
+          "@Common.ValueList.CollectionPath": "Departments",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "dept_ID"
+              },
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "deptNo"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "description"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "createdAt"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "createdBy"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "modifiedAt"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "modifiedBy"
+            }
+          ],
+          "@Common.Text": {
+            "=": "dept.deptNo"
+          },
+          "@Common.Text.@UI.TextArrangement": {
+            "#": "TextOnly"
+          },
+          "@Common.Label": "Department",
+          "type": "cds.Association",
+          "target": "shopload360Srv.Departments",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "shoploads": {
+          "@Common.Label": "Shoploads",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "shopload360Srv.Shoploads",
+          "on": [
+            {
+              "ref": [
+                "shoploads",
+                "machine"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "shopload360Srv.Shoploads": {
+      "kind": "entity",
+      "@UI.HeaderInfo.TypeName": "Shopload",
+      "@UI.HeaderInfo.TypeNamePlural": "Shoploads",
+      "@UI.DataPoint#machineNo.Value": {
+        "=": "machineNo"
+      },
+      "@UI.DataPoint#machineNo.Title": "Machine Number",
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "machineNo"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "temps"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "partNumber"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "fai"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "ibm"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "quantity"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "startDate"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "lrd"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "debit"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "pp"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "material"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "volume"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "clocking"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "mrpCtr"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "signal"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "priority"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "fixture"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "logs"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "sapStatus"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "logNumber"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "smartlogStatus"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "stockoutEcd"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "remarkIbm"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "commentsForProduction"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "qualityAlert"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "logisticsNotes"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "remarkPartNumber"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "productionDate"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "shoploadedOn"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "productionComments"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "completedDate"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "status"
+          }
+        }
+      ],
+      "@UI.FieldGroup#Main.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#Main.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "machineNo"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "temps"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "partNumber"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "fai"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "ibm"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "quantity"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "startDate"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "lrd"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "debit"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "pp"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "material"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "volume"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "clocking"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "mrpCtr"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "signal"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "priority"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "fixture"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "logs"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "sapStatus"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "logNumber"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "smartlogStatus"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "stockoutEcd"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "remarkIbm"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "commentsForProduction"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "qualityAlert"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "logisticsNotes"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "remarkPartNumber"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "productionDate"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "shoploadedOn"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "productionComments"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "completedDate"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "status"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "createdAt"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "createdBy"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "modifiedAt"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "modifiedBy"
+          }
+        }
+      ],
+      "@UI.HeaderFacets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "Target": "@UI.DataPoint#machineNo"
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "Main",
+          "Label": "General Information",
+          "Target": "@UI.FieldGroup#Main"
+        }
+      ],
+      "@UI.SelectionFields": [
+        {
+          "=": "machine_ID"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "Shopload360.Shoploads"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@title": "Created At",
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@title": "Created By",
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@title": "Modified At",
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@title": "Modified By",
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "machineNo": {
+          "@title": "Machine Number",
+          "type": "cds.Integer"
+        },
+        "temps": {
+          "@title": "Temperature",
+          "type": "cds.Decimal",
+          "precision": 6,
+          "scale": 2
+        },
+        "partNumber": {
+          "@title": "Part Number",
+          "type": "cds.String",
+          "length": 20
+        },
+        "fai": {
+          "@title": "FAI",
+          "type": "cds.Integer"
+        },
+        "ibm": {
+          "@title": "IBM",
+          "type": "cds.String",
+          "length": 7
+        },
+        "quantity": {
+          "@title": "Quantity",
+          "type": "cds.Integer"
+        },
+        "startDate": {
+          "@title": "Start Date",
+          "type": "cds.Date"
+        },
+        "lrd": {
+          "@title": "LRD",
+          "type": "cds.String",
+          "length": 20
+        },
+        "debit": {
+          "@title": "Debit",
+          "type": "cds.Integer"
+        },
+        "pp": {
+          "@title": "PP",
+          "type": "cds.Integer"
+        },
+        "material": {
+          "@title": "Material",
+          "type": "cds.String",
+          "length": 10
+        },
+        "volume": {
+          "@title": "Volume",
+          "type": "cds.Decimal",
+          "precision": 8,
+          "scale": 2
+        },
+        "clocking": {
+          "@title": "Clocking",
+          "type": "cds.String",
+          "length": 6
+        },
+        "mrpCtr": {
+          "@title": "MRP Center",
+          "type": "cds.String",
+          "length": 2
+        },
+        "signal": {
+          "@title": "Signal",
+          "type": "cds.Integer"
+        },
+        "priority": {
+          "@title": "Priority",
+          "type": "cds.Integer"
+        },
+        "fixture": {
+          "@title": "Fixture",
+          "type": "cds.String",
+          "length": 20
+        },
+        "logs": {
+          "@title": "Logs",
+          "type": "cds.String",
+          "length": 20
+        },
+        "sapStatus": {
+          "@title": "SAP Status",
+          "type": "cds.String",
+          "length": 3
+        },
+        "logNumber": {
+          "@title": "Log Number",
+          "type": "cds.String",
+          "length": 10
+        },
+        "smartlogStatus": {
+          "@title": "Smartlog Status",
+          "type": "cds.String",
+          "length": 10
+        },
+        "stockoutEcd": {
+          "@title": "Stockout ECD",
+          "type": "cds.String",
+          "length": 20
+        },
+        "remarkIbm": {
+          "@title": "Remark IBM",
+          "type": "cds.String",
+          "length": 90
+        },
+        "commentsForProduction": {
+          "@title": "Comments for Production",
+          "type": "cds.String",
+          "length": 90
+        },
+        "qualityAlert": {
+          "@title": "Quality Alert",
+          "type": "cds.String",
+          "length": 3
+        },
+        "logisticsNotes": {
+          "@title": "Logistics Notes",
+          "type": "cds.String",
+          "length": 90
+        },
+        "remarkPartNumber": {
+          "@title": "Remark Part Number",
+          "type": "cds.String",
+          "length": 90
+        },
+        "productionDate": {
+          "@title": "Production Date",
+          "type": "cds.Date"
+        },
+        "shoploadedOn": {
+          "@title": "Shoploaded On",
+          "type": "cds.Date"
+        },
+        "productionComments": {
+          "@title": "Production Comments",
+          "type": "cds.String",
+          "length": 90
+        },
+        "completedDate": {
+          "@title": "Completed Date",
+          "type": "cds.Date"
+        },
+        "status": {
+          "@title": "Status",
+          "type": "cds.String",
+          "length": 12
+        },
+        "machine": {
+          "@Common.ValueList.CollectionPath": "Machines",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "machine_ID"
+              },
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "machineNo"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "description"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "createdAt"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "createdBy"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "modifiedAt"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "modifiedBy"
+            }
+          ],
+          "@Common.Text": {
+            "=": "machine.machineNo"
+          },
+          "@Common.Text.@UI.TextArrangement": {
+            "#": "TextOnly"
+          },
+          "@Common.Label": "Machine",
+          "type": "cds.Association",
+          "target": "shopload360Srv.Machines",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "cds.outbox.Messages": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "timestamp": {
+          "type": "cds.Timestamp"
+        },
+        "target": {
+          "type": "cds.String"
+        },
+        "msg": {
+          "type": "cds.LargeString"
+        },
+        "attempts": {
+          "type": "cds.Integer",
+          "default": {
+            "val": 0
+          }
+        },
+        "partition": {
+          "type": "cds.Integer",
+          "default": {
+            "val": 0
+          }
+        },
+        "lastError": {
+          "type": "cds.LargeString"
+        },
+        "lastAttemptTimestamp": {
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "type": "cds.Timestamp"
+        },
+        "status": {
+          "type": "cds.String",
+          "length": 23
+        }
+      }
+    },
+    "Language": {
+      "kind": "type",
+      "@title": "{i18n>Language}",
+      "@description": "{i18n>LanguageCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Languages",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Currency": {
+      "kind": "type",
+      "@title": "{i18n>Currency}",
+      "@description": "{i18n>CurrencyCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Currencies",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Country": {
+      "kind": "type",
+      "@title": "{i18n>Country}",
+      "@description": "{i18n>CountryCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Countries",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Timezone": {
+      "kind": "type",
+      "type": "cds.Association",
+      "target": "sap.common.Timezones",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "sap.common": {
+      "kind": "context"
+    },
+    "sap.common.Locale": {
+      "kind": "type",
+      "@title": "{i18n>LanguageCode}",
+      "type": "cds.String",
+      "length": 14
+    },
+    "sap.common.Languages": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Text": {
+            "=": "name"
+          },
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Countries": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Currencies": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "symbol": {
+          "@title": "{i18n>CurrencySymbol}",
+          "type": "cds.String",
+          "length": 5
+        },
+        "minorUnit": {
+          "@title": "{i18n>CurrencyMinorUnit}",
+          "type": "cds.Int16"
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Timezones": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>TimeZoneCode}",
+          "key": true,
+          "type": "cds.String",
+          "length": 100
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Timezones.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Timezones.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.CodeList": {
+      "kind": "aspect",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        }
+      }
+    },
+    "sap.common.TextsAspect": {
+      "kind": "aspect",
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        }
+      }
+    },
+    "sap.common.FlowHistory": {
+      "kind": "aspect",
+      "elements": {
+        "transitions_": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "targetAspect": {
+            "elements": {
+              "timestamp": {
+                "@cds.on.insert": {
+                  "=": "$now"
+                },
+                "@UI.HiddenFilter": true,
+                "@UI.ExcludeFromNavigationContext": true,
+                "@Core.Immutable": true,
+                "@title": "{i18n>CreatedAt}",
+                "@readonly": true,
+                "key": true,
+                "type": {
+                  "ref": [
+                    "managed",
+                    "createdAt"
+                  ]
+                }
+              },
+              "user": {
+                "@cds.on.insert": {
+                  "=": "$user"
+                },
+                "@UI.HiddenFilter": true,
+                "@UI.ExcludeFromNavigationContext": true,
+                "@Core.Immutable": true,
+                "@title": "{i18n>CreatedBy}",
+                "@readonly": true,
+                "@description": "{i18n>UserID.Description}",
+                "type": {
+                  "ref": [
+                    "managed",
+                    "createdBy"
+                  ]
+                },
+                "length": 255
+              },
+              "status": {
+                "type": "cds.String"
+              },
+              "comment": {
+                "type": "cds.String"
+              }
+            }
+          }
+        }
+      }
+    },
+    "cuid": {
+      "kind": "aspect",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        }
+      }
+    },
+    "managed": {
+      "kind": "aspect",
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        }
+      }
+    },
+    "temporal": {
+      "kind": "aspect",
+      "elements": {
+        "validFrom": {
+          "@cds.valid.from": true,
+          "type": "cds.Timestamp"
+        },
+        "validTo": {
+          "@cds.valid.to": true,
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "User": {
+      "kind": "type",
+      "@title": "{i18n>UserID}",
+      "@description": "{i18n>UserID.Description}",
+      "type": "cds.String",
+      "length": 255
+    },
+    "sap.common.Languages.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "includes": [
+        "sap.common.TextsAspect"
+      ],
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@Common.Text": {
+            "=": "name"
+          },
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        }
+      }
+    },
+    "sap.common.Countries.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "includes": [
+        "sap.common.TextsAspect"
+      ],
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Currencies.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "includes": [
+        "sap.common.TextsAspect"
+      ],
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Timezones.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "includes": [
+        "sap.common.TextsAspect"
+      ],
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>TimeZoneCode}",
+          "key": true,
+          "type": "cds.String",
+          "length": 100
+        }
+      }
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v6.4.6",
+    "flavor": "inferred"
+  },
+  "$version": "2.0"
+}
